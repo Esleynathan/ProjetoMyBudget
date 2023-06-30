@@ -20,10 +20,10 @@ app.layout = dbc.Container(children=[
         dbc.Col([
             dcc.Location(id='url'),
             sidebar.layout
-        ], md=2, style={'background-color': 'red', 'height': '1080px'}),
+        ], md=2),
         dbc.Col([
             content
-        ], md=10, style={'background-color': 'blue', 'height': '1080px'})        
+        ], md=10)        
     ])
     
 
