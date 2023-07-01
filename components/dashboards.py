@@ -26,14 +26,14 @@ layout = dbc.Col([
         dbc.Col([
             dbc.CardGroup([
                 dbc.Card([
-                    html.Legend('Saldo'),
-                    html.H5('R$ 5400', id='p-saldo-dashboards', style={})
-                ], style={'padding-left': '20px', 'padding-top': '10px'}),
+                    html.Legend("Saldo"),
+                    html.H5("R$ 5400", id="p-saldo-dashboards", style={})
+                ], style={"padding-left": "20px", "padding-top": "10px"}),
 
                 dbc.Card(
-                    html.Div(className='fa fa-university', style=card_icon),
-                    color='warning',
-                    style={'maxWidth': 75, 'height': 100, 'margin-left': '-10px'}                        
+                    html.Div(className="fa fa-university", style=card_icon),
+                    color="warning",
+                    style={"maxWidth": 75, "height": 100, "margin-left": "-10px"}                        
                 )
             ]),
         ], width=4),
@@ -42,14 +42,14 @@ layout = dbc.Col([
         dbc.Col([
             dbc.CardGroup([
                 dbc.Card([
-                    html.Legend('Receita'),
-                    html.H5('R$ 1000', id='p-receita-dashboards', style={})
-                ], style={'padding-left': '200px', 'padding-top': '10px'}),
+                    html.Legend("Receita"),
+                    html.H5("R$ 1000", id="p-receita-dashboards", style={})
+                ], style={"padding-left": "20px", "padding-top": "10px"}),
 
                 dbc.Card(
-                    html.Div(className='fa fa-smile-o', style=card_icon),
-                    color='success',
-                    style={'maxWidth': 75, 'height': 100, 'margin-left': '-10px'}                        
+                    html.Div(className="fa fa-smile-o", style=card_icon),
+                    color="success",
+                    style={"maxWidth": 75, "height": 100, "margin-left": "-10px"}                        
                 )
             ]),
         ], width=4),
@@ -58,19 +58,19 @@ layout = dbc.Col([
         dbc.Col([
             dbc.CardGroup([
                 dbc.Card([
-                    html.Legend('Despesas'),
-                    html.H5('R$ 4600', id='p-despesa-dashboards', style={})
-                ], style={'padding-left': '20px', 'padding-top': '10px'}),
+                    html.Legend("Despesas"),
+                    html.H5("R$ 4600", id="p-despesa-dashboards", style={})
+                ], style={"padding-left": "20px", "padding-top": "10px"}),
 
                 dbc.Card(
-                    html.Div(className='fa fa-meh-o', style=card_icon),
-                    color='danger',
-                    style={'maxWidth': 75, 'height': 100, 'margin-left': '-10px'}                        
+                    html.Div(className="fa fa-meh-o", style=card_icon),
+                    color="danger",
+                    style={"maxWidth": 75, "height": 100, "margin-left": "-10px"}                        
                 )
             ]),
         ], width=4),  
     
-    ], style={'margin': '10px'}),
+    ], style={"margin": "10px"}),
 
     dbc.Row([
         dbc.Col([
@@ -107,15 +107,20 @@ layout = dbc.Col([
                         updatemode='singledate',
                         id='date-picker-config',
                         style={'z-index': '100'})],
-                style={'height': '100%', 'padding': '20px'}),
-            
+                    style={'height': '100%', 'padding': '20px'}),            
 
-        ], width=4)
+        ], width=4),
+
+        dbc.Col(
+            dbc.Card(dcc.Graph(id='graph1'), style={'height': '100%', 'padding': '10px'}), width=8
+        )
+    ], style={'margin': '10px'}),
+
+    dbc.Row([
+        dbc.Col(dbc.Card(dcc.Graph(id='graph2'), style={'padding': '10px'}), width=6),
+        dbc.Col(dbc.Card(dcc.Graph(id='graph2'), style={'padding': '10px'}), width=3),
+        dbc.Col(dbc.Card(dcc.Graph(id='graph2'), style={'padding': '10px'}), width=3),    
     ])
-       
-              
+
 ])
-
-
-
 # =========  Callbacks  =========== #

@@ -27,7 +27,7 @@ app.layout = dbc.Container(children=[
         ], md=10)        
     ], style={"padding": "0px"})
     
-], fluid=True,)
+], fluid=True, style={"padding": "0px"}, className="dbc")
 
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
 def render_page_content(pathname):

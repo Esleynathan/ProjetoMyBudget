@@ -8,11 +8,20 @@ from app import app
 from datetime import datetime, date
 import plotly.express as px
 import numpy as np
-import pandas as pd# ========= Layout ========= #
+import pandas as pd
+# from globals import *
+
+style_sidebar = style={"box-shadow": "2px 2px 10px 0px rgba(10, 9, 7, 0.10)",
+                    "margin": "10px",
+                    "padding": "10px",
+                    "height": "100vh"}
+
+# ========= Layout ========= #
 layout = dbc.Col([
                 html.H1("MyBudget", className="text-primary"),
                 html.P("by Ésley(ASIMOV)", className="text-info"),
                 html.Hr(),
+                
 
     # Seção de PERFIL ---------------
                 dbc.Button(id='botao_avatar',
@@ -212,7 +221,7 @@ layout = dbc.Col([
                     dbc.NavLink("Extratos", href="/extratos", active="exact"),
                 ], vertical=True, pills=True, id='nav_buttons', style={"margin-bottom": "50px"}),
 
-                ])
+                ],style=style_sidebar)
 
 
 # =========  Callbacks  =========== #
