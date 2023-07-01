@@ -21,16 +21,16 @@ app.layout = dbc.Container(children=[
             dcc.Location(id='url'),
             sidebar.layout
         ], md=2),
+
         dbc.Col([
             content
         ], md=10)        
-    ])
+    ], style={"padding": "0px"})
     
-
 ], fluid=True,)
 
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
-def render_page(pathname):
+def render_page_content(pathname):
     if pathname == '/' or pathname == '/dashboards':
         return dashboards.layout
     
