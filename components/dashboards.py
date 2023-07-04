@@ -7,7 +7,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import calendar
-# from globals import *
+from globals import *
 from app import app
 
 card_icon = {
@@ -28,7 +28,7 @@ layout = dbc.Col([
             dbc.CardGroup([
                 dbc.Card([
                     html.Legend("Saldo"),
-                    html.H5("R$ 5400", id="p-saldo-dashboards"),
+                    html.H5("R$ -", id="p-saldo-dashboards"),
                 ], style={"padding-left": "20px", "padding-top": "10px"}),
 
                 dbc.Card(
@@ -43,7 +43,7 @@ layout = dbc.Col([
             dbc.CardGroup([
                 dbc.Card([
                     html.Legend("Receita"),
-                    html.H5("R$ 1000", id="p-receita-dashboards"),
+                    html.H5("R$ -", id="p-receita-dashboards"),
                 ], style={"padding-left": "20px", "padding-top": "10px"}),
 
                 dbc.Card(
@@ -58,7 +58,7 @@ layout = dbc.Col([
             dbc.CardGroup([
                 dbc.Card([
                     html.Legend("Despesas"),
-                    html.H5("R$ 4600", id="p-despesa-dashboards"),
+                    html.H5("R$ -", id="p-despesa-dashboards"),
                 ], style={"padding-left": "20px", "padding-top": "10px"}),
 
                 dbc.Card(
@@ -105,8 +105,7 @@ layout = dbc.Col([
                         updatemode='singledate',
                         id='date-picker-config',
                         style={'z-index': '100'})],
-                    style={'height': '100%', 'padding': '20px'}),            
-
+                    style={'height': '100%', 'padding': '20px'}),        
         ], width=4),
 
         dbc.Col(
@@ -119,6 +118,42 @@ layout = dbc.Col([
         dbc.Col(dbc.Card(dcc.Graph(id='graph3'), style={'padding': '10px'}), width=3),
         dbc.Col(dbc.Card(dcc.Graph(id='graph4'), style={'padding': '10px'}), width=3),    
     ])
-
 ])
+
 # =========  Callbacks  =========== #
+# Dropdown Receita
+@app.callback([Output("dropdown-receita", "options"),
+               Output("dropdown-receita", "value"),
+               Output("p-receita-dashboards", "children")],
+               Input("store-receitas", "data"))
+def populate_dropdownvalues(data):
+    df = pd.DataFrame(data)
+    valor = df['Valor'].sum()
+    val = df.Categoria.unique().tolist()
+
+    return ([{"label": x, "value": x} for x in val], val, f"R$ {valor}")
+
+# Dropdown despesas               
+@app.callback([Output("dropdown-despesa", "options"),
+               Output("dropdown-despesa", "value"),
+               Output("p-despesa-dashboards", "children")],
+               Input("store-despesas", "data"))
+def populate_dropdownvalues(data):
+    df = pd.DataFrame(data)
+    valor = df['Valor'].sum()
+    val = df.Categoria.unique().tolist()
+
+    return ([{"label": x, "value": x} for x in val], val, f"R$ {valor}")
+
+# VALOR - saldo
+@app.callback(
+    Output("p-saldo-dashboards", "children"),
+    [Input("store-despesas", "data"),
+    Input("store-receitas", "data")])
+def saldo_total(despesas, receitas):
+    df_despesas = pd.DataFrame(despesas)
+    df_receitas = pd.DataFrame(receitas)
+
+    valor = df_receitas['Valor'].sum() - df_despesas['Valor'].sum()
+
+    return f"R$ {valor}"

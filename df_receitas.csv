@@ -1,2 +1,5 @@
 ,Valor,Efetuado,Fixo,Data,Categoria,Descrição
-0,2000.0,1,1,2023-07-03,Salário,Salario Junho
+0,500.0,1,1,2023-07-04,Salário,Aluguel Loja
+1,500.0,1,1,2023-07-04,Aluguel,Aluguel Loja
+2,500.0,1,1,2023-07-04,Investimentos,Aluguel Loja
+3,500.0,1,1,2023-07-04,Comissão,Aluguel Loja
