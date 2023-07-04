@@ -9,12 +9,14 @@ from datetime import datetime, date
 import plotly.express as px
 import numpy as np
 import pandas as pd
-# from globals import *
+from globals import *
 
 style_sidebar = style={"box-shadow": "2px 2px 10px 0px rgba(10, 9, 7, 0.10)",
                     "margin": "10px",
                     "padding": "10px",
                     "height": "100vh"}
+
+cat_receita = df_cat_receita['Categoria'].tolist()
 
 # ========= Layout ========= #
 layout = dbc.Col([
@@ -71,16 +73,18 @@ layout = dbc.Col([
 
                             dbc.Col([
                                 dbc.Label("Extras"),
-                                dbc.Checklist(options=[],
-                                    value=[],
-                                    id="switches-input-receita",
-                                    switch=True
-                                ),                                 
+                                dbc.Checklist(
+                                        options=[{"label": "Foi recebida", "value": 1},
+                                        {"label": "Receita Recorrente", "value": 2}],
+                                        value=[1],
+                                        id="switches-input-receita",
+                                        switch=True),                                 
                             ], width=4),
 
                             dbc.Col([
                                 dbc.Label("Categoria da receita"),
-                                dbc.Select(id='select_receita', options=[], value=[]),                                 
+                                dbc.Select(id="select_receita",
+                                           options=[{"label": i, "value": i} for i in cat_receita], value=cat_receita[0])                                 
                             ], width=4),                         
 
                         ], style={'margin-top': '25px'}),
@@ -100,7 +104,7 @@ layout = dbc.Col([
 
                                         dbc.Col([
                                             html.Legend("Excluir categorias", style={'color': 'red'}),
-                                            dbc.Checklist(options=[],
+                                            dbc.Checklist(options=[{"label": i, "value": i} for i in cat_receita],
                                                 value=[],
                                                 id="checklist-selected-style-receita",
                                                 label_checked_style={'color': 'red'},
@@ -156,16 +160,18 @@ layout = dbc.Col([
 
                             dbc.Col([
                                 dbc.Label("Extras"),
-                                dbc.Checklist(options=[],
-                                    value=[],
-                                    id="switches-input-despesa",
-                                    switch=True
-                                ),                                 
+                                dbc.Checklist(
+                                        options=[{"label": "Foi recebida", "value": 1},
+                                        {"label": "Despesa Recorrente", "value": 2}],
+                                        value=[1],
+                                        id="switches-input-despesa",
+                                        switch=True),                                 
                             ], width=4),
 
                             dbc.Col([
                                 dbc.Label("Categoria da despesa"),
-                                dbc.Select(id='select_despesa', options=[], value=[]),                                 
+                                dbc.Select(id='select_despesa',
+                                           options=[{"label": i, "value": i} for i in cat_despesa], value=cat_despesa[0]),                                 
                             ], width=4),                         
 
                         ], style={'margin-top': '25px'}),
@@ -244,3 +250,40 @@ def toggle_modal(n1, is_open):
 def toggle_modal(n1, is_open):
     if n1:
         return not is_open
+    
+# Enviar Form receita
+@app.callback(
+    Output('store-receitas', 'data'),
+
+    Input("salvar_receita", "n_clicks"),
+
+    [
+        State("txt-receita", "value"),
+        State("valor_receita", "value"),
+        State("date-receitas", "date"),
+        State("switches-input-receita", "value"),
+        State("select_receita", "value"),
+        State('store-receitas', 'data')
+    ]
+)
+
+def salve_form_receita(n, descricao, valor, date, switches, categoria, dict_receitas):
+    import  pdb
+    pdb.set_trace()
+
+    return {}
+    df_receitas = pd.DataFrame(dict_receitas)
+
+    if n and not(valor == "" or valor== None):
+        valor = round(float(valor), 2)
+        date = pd.to_datetime(date).date()
+        categoria = categoria[0] if type(categoria) == list else categoria
+
+        recebido = 1 if 1 in switches else 0
+        fixo = 0 if 2 in switches else 0
+
+        df_receitas.loc[df_receitas.shape[0]] = [valor, recebido, fixo, date, categoria, descricao]
+        df_receitas.to_csv("df_receitas.csv")
+
+    data_return = df_receitas.to_dict()
+    return data_return
