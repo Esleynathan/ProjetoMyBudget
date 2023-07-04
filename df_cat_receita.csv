@@ -1,5 +1,7 @@
 ,Categoria
-0,Salário
-1,Investimentos
-2,Comissão
-3,Aluguel
+0,Comissão
+1,Salário
+2,Dividendos
+3,Dívidas ativas
+4,Investimentos
+5,Herança
